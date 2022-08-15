@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import * as Actions from './MovieActions'
+import { Link } from 'react-router-dom';
 
 
 
@@ -34,13 +35,13 @@ export default function Cards(props) {
           return (
             <div className="card" key={card.id} id={card.id}>
               <img src={`https://image.tmdb.org/t/p/w500${card.poster_path}`} />
-           
+              <Link to={`/incard/${card.id}`}>
                 <h3
                   className="title"
                 >
                   {card.original_title}
                 </h3>
-           
+              </Link>
               <div className="rate-like-row">
                 <p>{card.vote_average}</p>
                 <i onClick={() => {

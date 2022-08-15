@@ -69,3 +69,13 @@
   .title {
     cursor: pointer;
   }
+
+  .indivCard {
+    display: flex;
+    gap: 3rem;
+    padding: 3rem;
+    width: 70%;
+    margin: 0 auto;
+    align-items: center;
+    justify-content: center;
+  }

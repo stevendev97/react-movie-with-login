@@ -1,6 +1,7 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import * as Actions from './MovieActions'
+import { Link } from 'react-router-dom'
 
 
 const Header = ({onLoginClik,onHomeClick,onLikeView}) => {
@@ -42,12 +43,14 @@ const Header = ({onLoginClik,onHomeClick,onLikeView}) => {
           </select>
         </div>
         <div className="nav">
-          <h1
-            className="in-view"
-            onClick={onHomeClick}
-          >
-            HOME
-          </h1>
+          <Link to='/'>
+            <h1
+              className="in-view"
+              onClick={onHomeClick}
+            >
+              HOME
+            </h1>
+          </Link>
           <h1
             className="in-view"
             onClick={onLikeView}

@@ -6,12 +6,15 @@ import Header from './Header';
 import PagesBar from './PageBar';
 import Cards from './Cards';
 import Login from '../loginComponent/Login';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import IndividualCard from './IndividualCard'
 
 
 
 const MovieApp = () => {
 
     const dispatch = useDispatch();
+    
     
     const { cards, movieType, currentPageNum, totalPages, likedIds, likedMovies } = useSelector((state) => {
         return state.moviesData
@@ -52,27 +55,69 @@ const MovieApp = () => {
     return (
 
         (
+            
             isInLogin ? 
                 <div>
                     {(logedIn ? 
-                        <div>
-                            <Header onHomeClick={handelHomeInLogedIn} onLikeView={handelLikeView}/>
-                            {isInLiked ? '' : <PagesBar totalPages={totalPages} currentPageNum={currentPageNum}/> }
-                            {isInLiked ? <Cards cards={likedMovies}/> : <Cards cards={cards}/>}
-                        </div> : 
-                        <div>
-                            <Header onHomeClick={handelHome}/>
-                            <Login />
-                        </div>
+                    <Router>
+                        <Routes>
+                            <Route path='/' exact element={
+                                <div>
+                                    <Header onHomeClick={handelHomeInLogedIn} onLikeView={handelLikeView}/>
+                                    {isInLiked ? '' : <PagesBar totalPages={totalPages} currentPageNum={currentPageNum}/> }
+                                    {isInLiked ? <Cards cards={likedMovies}/> : <Cards cards={cards}/>}
+                                </div>
+                            }/>
+                            <Route path='/incard/:cardId' element={
+                                <div>
+                                    <Header onHomeClick={handelHomeInLogedIn} onLikeView={handelLikeView}/>
+                                    <IndividualCard/>
+                                </div>                         
+                            }/>
+
+                        </Routes>
+                    </Router>
+                    :
+                    <Router>
+                        <Routes>
+                            <Route path='/' exact element={
+                                <div>
+                                <Header onHomeClick={handelHome}/>
+                                <Login />
+                                </div>
+                            } />
+                        </Routes>
+                    </Router> 
                     )}
                 </div> : 
 
-               
-                 <div>
-                    <Header onHomeClick={handelHome} onLoginClik={handelLoginCliked}/>
-                    <PagesBar totalPages={totalPages} currentPageNum={currentPageNum}/>
-                    <Cards cards={cards}/>  
-                </div>
+               <Router>
+                    <>
+                        <Routes>
+                            <Route path='/' exact element={
+                                <div>
+                                    <Header onHomeClick={handelHome} onLoginClik={handelLoginCliked}/>
+                                    <PagesBar totalPages={totalPages} currentPageNum={currentPageNum}/>
+                                    <Cards cards={cards}/>     
+                                </div>
+                            }/>
+                            <Route path='/incard/:cardId' element={
+                                <div>
+                                    <Header onHomeClick={handelHome} onLoginClik={handelLoginCliked}/>
+                                    <IndividualCard/>
+                                </div>                         
+                            }/>
+                        </Routes> 
+                    </>
+               </Router>
+
+
+
+                //  <div>
+                //     <Header onHomeClick={handelHome} onLoginClik={handelLoginCliked}/>
+                //     <PagesBar totalPages={totalPages} currentPageNum={currentPageNum}/>
+                //     <Cards cards={cards}/>  
+                // </div>
                
                
         )

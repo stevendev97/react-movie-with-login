@@ -79,3 +79,8 @@
     align-items: center;
     justify-content: center;
   }
+
+  .indivCard select {
+    padding: .5rem .7rem;
+    margin-top: 1rem;
+  }

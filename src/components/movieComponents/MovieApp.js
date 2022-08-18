@@ -9,14 +9,13 @@ import Login from '../loginComponent/Login';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import IndividualCard from './IndividualCard'
 import RatedMovies from './RatedMovies';
+import LikedMovies from './LikedMovies'
 
 
 
 const MovieApp = () => {
 
     const dispatch = useDispatch();
-    
-    
     const { cards, movieType, currentPageNum, totalPages, likedIds, likedMovies } = useSelector((state) => {
         return state.moviesData
     })
@@ -24,8 +23,6 @@ const MovieApp = () => {
         return state.isLogin.isLogin
     })
 
-    
-    const [isInLiked, setIsInLiked] = useState(false);
     let userData = JSON.parse(localStorage.getItem('user'))
    
     useEffect(() => { 
@@ -44,11 +41,7 @@ const MovieApp = () => {
         setIsInLogin(false)
         dispatch(Actions.initialLoadCards('popular', 1))
     }
-    const handelLikeView = () => {
-        setIsInLiked(true)
-    }
     const handelHomeInLogedIn = () => {
-        setIsInLiked(false)
         dispatch(Actions.initialLoadCards('popular', 1))
     }
  
@@ -64,21 +57,27 @@ const MovieApp = () => {
                         <Routes>
                             <Route path='/' exact element={
                                 <div>
-                                    <Header onHomeClick={handelHomeInLogedIn} onLikeView={handelLikeView}/>
-                                    {isInLiked ? '' : <PagesBar totalPages={totalPages} currentPageNum={currentPageNum}/> }
-                                    {isInLiked ? <Cards cards={likedMovies}/> : <Cards cards={cards}/>}
+                                    <Header onHomeClick={handelHomeInLogedIn} />
+                                    <PagesBar totalPages={totalPages} currentPageNum={currentPageNum}/>
+                                    <Cards cards={cards}/>
                                 </div>
                             }/>
                             <Route path='/incard/:cardId' element={
                                 <div>
-                                    <Header onHomeClick={handelHomeInLogedIn} onLikeView={handelLikeView}/>
-                                    {isInLiked ? <Cards cards={likedMovies}/> : <IndividualCard/>}
+                                    <Header onHomeClick={handelHomeInLogedIn} />
+                                    <IndividualCard/>
+                                </div>                         
+                            }/>
+                            <Route path='/liked' element={
+                                <div>
+                                    <Header onHomeClick={handelHomeInLogedIn} />
+                                    <LikedMovies />
                                 </div>                         
                             }/>
                             <Route path='/rated' element={
                                 <div>
-                                    <Header onHomeClick={handelHomeInLogedIn} onLikeView={handelLikeView}/>
-                                    {isInLiked ? <Cards cards={likedMovies}/> : <RatedMovies />}
+                                    <Header onHomeClick={handelHomeInLogedIn} />
+                                    <RatedMovies />
                                 </div>                         
                             }/>
 

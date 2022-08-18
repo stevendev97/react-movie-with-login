@@ -32,6 +32,7 @@ export default function Cards(props) {
     return (
       <div className="card-container">
         {props.cards.map((card) => {
+          {console.log(card.id)}
           return (
             <div className="card" key={card.id} id={card.id}>
               <img src={`https://image.tmdb.org/t/p/w500${card.poster_path}`} />

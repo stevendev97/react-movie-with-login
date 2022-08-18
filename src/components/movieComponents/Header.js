@@ -42,12 +42,14 @@ const Header = ({onLoginClik,onHomeClick,onLikeView}) => {
               HOME
             </h1>
           </Link>
+          <Link to='/liked'>
           <h1
             className="in-view"
             onClick={onLikeView}
           >
             LIKED
           </h1>
+          </Link>
           <Link to='/rated'>
           <h1
             className="in-view"

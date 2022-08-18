@@ -8,6 +8,7 @@ import Cards from './Cards';
 import Login from '../loginComponent/Login';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import IndividualCard from './IndividualCard'
+import RatedMovies from './RatedMovies';
 
 
 
@@ -71,7 +72,13 @@ const MovieApp = () => {
                             <Route path='/incard/:cardId' element={
                                 <div>
                                     <Header onHomeClick={handelHomeInLogedIn} onLikeView={handelLikeView}/>
-                                    <IndividualCard/>
+                                    {isInLiked ? <Cards cards={likedMovies}/> : <IndividualCard/>}
+                                </div>                         
+                            }/>
+                            <Route path='/rated' element={
+                                <div>
+                                    <Header onHomeClick={handelHomeInLogedIn} onLikeView={handelLikeView}/>
+                                    {isInLiked ? <Cards cards={likedMovies}/> : <RatedMovies />}
                                 </div>                         
                             }/>
 

@@ -12,15 +12,6 @@ const Header = ({onLoginClik,onHomeClick,onLikeView}) => {
     const movieType = useSelector((state) => {
         return state.moviesData.movieType
     })
-    const userId = useSelector((state) => {
-        return state.isLogin.userAccountId
-    })
-    const sessionId = useSelector((state) => {
-        return state.isLogin.sessionId
-    })
-    const likedIds = useSelector((state) => {
-        return state.moviesData.likedIds
-    })
     const handelTypeChanged = (e) => {
         dispatch(Actions.setMovieType(e.target.value))
         dispatch(Actions.setCurrentPage(1))
@@ -57,6 +48,13 @@ const Header = ({onLoginClik,onHomeClick,onLikeView}) => {
           >
             LIKED
           </h1>
+          <Link to='/rated'>
+          <h1
+            className="in-view"
+          >
+            Rated
+          </h1>
+          </Link>
         </div>
         <div className='login-btn' onClick={() => {
             onLoginClik()

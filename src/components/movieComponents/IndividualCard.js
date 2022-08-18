@@ -38,7 +38,7 @@ export default function IndividualCard() {
         setTargetRate(rate)
     }
     useEffect(() => {          
-          fetch(`https://api.themoviedb.org/3/account/13626230/rated/movies?api_key=8758924ab5c823bb55f6379099bdc456&language=en-US&session_id=${sessionId}&sort_by=created_at.asc&page=1`)
+          fetch(`https://api.themoviedb.org/3/account/${accId}/rated/movies?api_key=8758924ab5c823bb55f6379099bdc456&language=en-US&session_id=${sessionId}&sort_by=created_at.asc&page=1`)
             .then(response => response.json())
             .then((result) => {
                 setTargetRate(result.results.filter((movie) => {

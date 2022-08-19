@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux';
 import * as Actions from './MovieActions'
 //getTargetRated
-export default function IndividualCard({ratedMovies}) {
+export default function IndividualCard({ratedMovies, targetRating}) {
     const dispatch = useDispatch();
-    const [theRate, setTheRate] = useState(useSelector((state) => {
-        return state.moviesData.targetRating
-    }))
+    const params = useParams();
     const [rate, setRate] = useState(1)
     const targetCard = useSelector((state) => {
         return state.moviesData.targetratedMovie
     })
+    const [updatedRating, setUdatedRating] = useState(null)
+    const [companyLogo, setCompanyLogo] = useState(targetCard.production_companies)
     const userId = useSelector((state) => {
         return state.isLogin.userAccountId
     })
@@ -21,7 +21,7 @@ export default function IndividualCard({ratedMovies}) {
     const handelRateChange = (e) => {
         setRate(e.target.value)
     }
-    const handelPostRate = async () => {
+    const handelPostRate = () => {
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
 
@@ -36,9 +36,11 @@ export default function IndividualCard({ratedMovies}) {
         redirect: 'follow'
         };
 
-        await fetch(`https://api.themoviedb.org/3/movie/${targetCard.id}/rating?api_key=8758924ab5c823bb55f6379099bdc456&session_id=${sessionId}`, requestOptions)
+        fetch(`https://api.themoviedb.org/3/movie/${targetCard.id}/rating?api_key=8758924ab5c823bb55f6379099bdc456&session_id=${sessionId}`, requestOptions)
         dispatch(Actions.getRatedMovies(userId, sessionId))
-        
+        dispatch(Actions.getTargetRating(ratedMovies, Number(params.cardId)))
+        setUdatedRating(rate)
+
     }
     return (
         <div className='indivCard'>
@@ -61,13 +63,13 @@ export default function IndividualCard({ratedMovies}) {
                         <option value="9">9</option>
                         <option value="10">10</option>
                     </select>
-                    <button onClick={handelPostRate}>Click to rate the Moive</button>
-                    {(theRate < 1) ? <p>You have not rated this movie</p> : <p>You gave this movie a {theRate} out of 10</p>}
+                    <button onClick={() => {
+                        handelPostRate()
+                    }}>Click to rate the Moive</button>
+                    {(targetRating < 1) ? <p>You have not rated this movie</p> : <p>You gave this movie a {(updatedRating ? updatedRating : targetRating)} out of 10</p>}
                     <h2>Production Companies</h2>
                     <div className='logos-container'>
-                        {/* {targetCard.production_companies.map((logo) => {
-                            return <img className='comp-logo' src={`https://image.tmdb.org/t/p/w500${logo.logo_path}`} />
-                        })} */}
+                        {console.log('targetRating',targetRating)}
                     </div>
               </div>
         </div>

@@ -10,21 +10,17 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import IndividualCard from './IndividualCard'
 import RatedMovies from './RatedMovies';
 import LikedMovies from './LikedMovies'
-import Logout from './Logout';
 
 
 
 const MovieApp = () => {
 
     const dispatch = useDispatch();
-    const { cards, movieType, currentPageNum, totalPages, likedIds, likedMovies } = useSelector((state) => {
+    const { cards, movieType, currentPageNum, totalPages, likedIds, likedMovies, ratedMovies, targetratedMovie, targetRating } = useSelector((state) => {
         return state.moviesData
     })
     const logedIn = useSelector((state) => {
         return state.isLogin.isLogin
-    })
-    const ratedMovies = useSelector((state) => {
-        return state.moviesData.ratedMovies
     })
     let userData = JSON.parse(localStorage.getItem('user'))
    
@@ -54,8 +50,6 @@ const MovieApp = () => {
             setLogOut(!logOut)
         }
     }
- 
-
     return (
 
         (
@@ -75,7 +69,7 @@ const MovieApp = () => {
                             <Route path='/incard/:cardId' element={
                                 <div>
                                     <Header onHomeClick={handelHomeInLogedIn} onLoginClik={handelLoginCliked}/>
-                                    <IndividualCard ratedMovies={ratedMovies}/>
+                                    <IndividualCard ratedMovies={ratedMovies} targetRating={targetRating} />
                                 </div>                         
                             }/>
                             <Route path='/liked' element={

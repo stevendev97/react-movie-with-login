@@ -173,8 +173,8 @@ export const getLikedMoviees = (accId, sessionId) => {
 }
 
 export const getRatedMovies = (accId, sessionId) => {
-    return (dispatch) => {
-        fetch(`https://api.themoviedb.org/3/account/${accId}/rated/movies?api_key=8758924ab5c823bb55f6379099bdc456&language=en-US&session_id=${sessionId}&sort_by=created_at.asc&page=1`)
+    return async (dispatch) => {
+        await fetch(`https://api.themoviedb.org/3/account/${accId}/rated/movies?api_key=8758924ab5c823bb55f6379099bdc456&language=en-US&session_id=${sessionId}&sort_by=created_at.asc&page=1`)
         .then(response => response.json())
         .then((result) => {
             dispatch(setRatedMOVIES(result.results))
@@ -188,20 +188,22 @@ export const getTargetRated = (cardId) => {
             await fetch(`https://api.themoviedb.org/3/movie/${cardId}?api_key=8758924ab5c823bb55f6379099bdc456&language=en-US`)
             .then(respon => respon.json())
             .then((result) => {
+                console.log(result)
                 dispatch(setTargetRated(result))
             })
         }
 }
 
 export const getTargetRating = (ratedMovies,cardId) => {
-    return (dispatch) => {
+    return async (dispatch) => {
         try {
             const targted = ratedMovies.find((movie) => {
                 return movie.id === cardId
             })
             dispatch(setTargetedRating(targted.rating))
+            console.log('success in set target rating' )
         } catch {
-
+            dispatch(setTargetedRating(null))
         }
         
     }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import * as Actions from './MovieActions'
 import { Link } from 'react-router-dom';
@@ -34,6 +34,10 @@ export default function Cards(props) {
     const handelTitleClick = (cardId) => {
       dispatch(Actions.getTargetRated(cardId))
       dispatch(Actions.getTargetRating(ratedMovies, cardId))
+      // const [theRate, setTheRate] = useState(useSelector((state) => {
+      //   return state.moviesData.targetRating
+      // }))
+      // console.log(theRate, 'inside card call')
     }
     return (
       <div className="card-container">

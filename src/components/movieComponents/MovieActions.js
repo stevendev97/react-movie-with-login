@@ -6,6 +6,9 @@ export const SET_NEXTPAGE = 'SET_NEXTPAGE'
 export const SET_PREVPAGE = 'SET_PREVPAGE'
 export const SET_LIKED_ID = 'SET_LIKED_ID'
 export const SET_LIKED_MOVIES = 'SET_LIKED_MOVIES'
+export const SET_RATED_MOVIES = 'SET_RATED_MOVIES'
+export const SET_TARGET_RATED = 'SET_TARGET_RATED'
+export const SET_TARGET_RATING = 'SET_TARGET_RATING'
 
 
 export const setCards = (cards) => {
@@ -74,6 +77,33 @@ export const setLikedMOVIES = (likedMovies) => {
     }
 }
 
+export const setRatedMOVIES = (ratedMovies) => {
+    return {
+        type: SET_RATED_MOVIES,
+        payload: {
+            ratedMovies: ratedMovies
+        }
+    }
+}
+
+export const setTargetRated = (targetRatedMovie) => {
+    return {
+        type: SET_TARGET_RATED,
+        payload: {
+            targetratedMovie: targetRatedMovie
+        }
+    }
+}
+
+export const setTargetedRating = (rating) => {
+    return {
+        type: SET_TARGET_RATING,
+        payload: {
+            targetRating: rating
+        } 
+    }
+}
+
 export const initialLoadCards = (movieType, pageNum) => {
     return (dispatch) => {
         fetch(
@@ -139,6 +169,41 @@ export const getLikedMoviees = (accId, sessionId) => {
                 dispatch(setLikedMOVIES(result.results))
             })
             .catch(error => console.log('error', error));
+    }
+}
+
+export const getRatedMovies = (accId, sessionId) => {
+    return (dispatch) => {
+        fetch(`https://api.themoviedb.org/3/account/${accId}/rated/movies?api_key=8758924ab5c823bb55f6379099bdc456&language=en-US&session_id=${sessionId}&sort_by=created_at.asc&page=1`)
+        .then(response => response.json())
+        .then((result) => {
+            dispatch(setRatedMOVIES(result.results))
+        })
+        .catch(error => console.log('error', error));
+    }
+}
+
+export const getTargetRated = (cardId) => {
+    return async (dispatch) => {
+            await fetch(`https://api.themoviedb.org/3/movie/${cardId}?api_key=8758924ab5c823bb55f6379099bdc456&language=en-US`)
+            .then(respon => respon.json())
+            .then((result) => {
+                dispatch(setTargetRated(result))
+            })
+        }
+}
+
+export const getTargetRating = (ratedMovies,cardId) => {
+    return (dispatch) => {
+        try {
+            const targted = ratedMovies.find((movie) => {
+                return movie.id === cardId
+            })
+            dispatch(setTargetedRating(targted.rating))
+        } catch {
+
+        }
+        
     }
 }
 

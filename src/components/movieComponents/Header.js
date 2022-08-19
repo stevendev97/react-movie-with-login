@@ -2,15 +2,19 @@ import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import * as Actions from './MovieActions'
 import { Link } from 'react-router-dom'
+import Logout from './Logout';
 
 
-const Header = ({onLoginClik,onHomeClick,onLikeView}) => {
+const Header = ({onLoginClik,onHomeClick,onLikeView,logOut}) => {
     const dispatch = useDispatch();
     const logedName = useSelector((state) => {
         return state.isLogin.userName
     })
     const movieType = useSelector((state) => {
         return state.moviesData.movieType
+    })
+    const isLogin = useSelector((state) => {
+      return state.isLogin.isLogin
     })
     const handelTypeChanged = (e) => {
         dispatch(Actions.setMovieType(e.target.value))
@@ -42,26 +46,28 @@ const Header = ({onLoginClik,onHomeClick,onLikeView}) => {
               HOME
             </h1>
           </Link>
-          <Link to='/liked'>
-          <h1
-            className="in-view"
-            onClick={onLikeView}
-          >
-            LIKED
-          </h1>
-          </Link>
-          <Link to='/rated'>
-          <h1
-            className="in-view"
-          >
-            Rated
-          </h1>
-          </Link>
+          { isLogin ?
+            <>
+            <Link to='/liked'>
+              <h1
+                className="in-view"
+                onClick={onLikeView}
+              >
+                LIKED
+              </h1>
+              </Link>
+              <Link to='/rated'>
+              <h1
+                className="in-view"
+              >
+                Rated
+              </h1>
+            </Link>
+            </> : ''
+          }
         </div>
-        <div className='login-btn' onClick={() => {
-            onLoginClik()
-        }}>
-            {(logedName ? logedName : 'Login')}
+        <div className='login-btn' onClick={onLoginClik}>
+            {(logedName ? <>{logOut ? <Logout /> : logedName}</> : 'Login')}
         </div>
       </div> 
     )

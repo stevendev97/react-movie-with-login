@@ -72,15 +72,43 @@
 
   .indivCard {
     display: flex;
-    gap: 3rem;
+    gap: 4rem;
     padding: 3rem;
     width: 70%;
     margin: 0 auto;
-    align-items: center;
     justify-content: center;
+  }
+
+  .indivCard h1 {
+    margin-bottom: 1rem;
+  }
+
+  .indivCard h2 {
+    margin-top: 2rem;
   }
 
   .indivCard select {
     padding: .5rem .7rem;
-    margin-top: 1rem;
+    margin: 1rem 1rem 1rem 0;
+  }
+
+  .indivCard button {
+    border: none;
+    padding: .5rem 1rem;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+
+  .logos-container {
+    margin-top: 3rem;
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+  }
+
+  .comp-logo img{
+    width: 100%;
+  }
+  .comp-logo {
+    width: 200px;
   }

@@ -1,21 +1,23 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux';
-
-export default function IndividualCard() {
+import * as Actions from './MovieActions'
+//getTargetRated
+export default function IndividualCard({ratedMovies}) {
+    const dispatch = useDispatch();
+    const [theRate, setTheRate] = useState(useSelector((state) => {
+        return state.moviesData.targetRating
+    }))
     const [rate, setRate] = useState(1)
-    const params = useParams();
-    const [targetedRate, setTargetRate] = useState(0)
+    const targetCard = useSelector((state) => {
+        return state.moviesData.targetratedMovie
+    })
+    const userId = useSelector((state) => {
+        return state.isLogin.userAccountId
+    })
     const sessionId = useSelector((state) => {
         return state.isLogin.sessionId
     })
-    const accId = useSelector((state) => {
-        return state.isLogin.userAccountId
-    })
-    const cards = useSelector((state) => {
-        return state.moviesData.cards
-    })
-    const targetCard = cards.find((card) => (card.id === Number(params.cardId)))
     const handelRateChange = (e) => {
         setRate(e.target.value)
     }
@@ -35,27 +37,18 @@ export default function IndividualCard() {
         };
 
         await fetch(`https://api.themoviedb.org/3/movie/${targetCard.id}/rating?api_key=8758924ab5c823bb55f6379099bdc456&session_id=${sessionId}`, requestOptions)
-        setTargetRate(rate)
+        dispatch(Actions.getRatedMovies(userId, sessionId))
+        
     }
-    useEffect(() => {          
-          fetch(`https://api.themoviedb.org/3/account/${accId}/rated/movies?api_key=8758924ab5c823bb55f6379099bdc456&language=en-US&session_id=${sessionId}&sort_by=created_at.asc&page=1`)
-            .then(response => response.json())
-            .then((result) => {
-                setTargetRate(result.results.filter((movie) => {
-                    console.log(targetCard.id, movie.id)
-                    return (movie.id === targetCard.id)
-                })[0].rating)
-            })
-            .catch(error => console.log('error', error));
-    },[])
     return (
         <div className='indivCard'>
               <img src={`https://image.tmdb.org/t/p/w500${targetCard.poster_path}`} />
               <div>
                     <h1>{targetCard.title}</h1>
-                    <p>Rating: {targetCard.vote_average}</p>
-                    <h3>Overview</h3>
+                    <h2>Overview</h2>
                     <p>{targetCard.overview}</p>
+                    <h2>Rating: {targetCard.vote_average}</h2>
+                    <h2>Rate this movie</h2>
                     <select onChange={handelRateChange} value={rate}>
                         <option value="1">1</option>
                         <option value="2">2</option>
@@ -69,8 +62,13 @@ export default function IndividualCard() {
                         <option value="10">10</option>
                     </select>
                     <button onClick={handelPostRate}>Click to rate the Moive</button>
-                    <p>You gave this movie a {targetedRate} out of 10</p>
-
+                    {(theRate < 1) ? <p>You have not rated this movie</p> : <p>You gave this movie a {theRate} out of 10</p>}
+                    <h2>Production Companies</h2>
+                    <div className='logos-container'>
+                        {/* {targetCard.production_companies.map((logo) => {
+                            return <img className='comp-logo' src={`https://image.tmdb.org/t/p/w500${logo.logo_path}`} />
+                        })} */}
+                    </div>
               </div>
         </div>
     )

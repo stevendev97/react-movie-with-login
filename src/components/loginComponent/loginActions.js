@@ -132,6 +132,7 @@ export const initalLoad = (userKeyInName, userKeyInPass) => {
             userData.userName = data.username
             userData.accountId = data.id
             dispatch(ActionsInMovieApp.getLikedMoviees(data.id, getSessionId))
+            dispatch(ActionsInMovieApp.getRatedMovies(data.id, getSessionId))
           })
 
         localStorage.setItem('user', JSON.stringify(userData))  
@@ -146,9 +147,7 @@ export const initalLoadFromLocal = (sessionId) => {
             if (resp.ok === false){
                 dispatch(isLoginAction(false))
                 dispatch(setErrorMessage('Your user name and password do dont match!'))
-                console.log('load from local faild')
               } else {
-                console.log('load from local pass')
                 dispatch(isLoginAction(true))
                 return resp.json()
               }  
@@ -157,6 +156,7 @@ export const initalLoadFromLocal = (sessionId) => {
             dispatch(setUserAccountId(data.id))
             dispatch(setSessionId(sessionId))
             dispatch(ActionsInMovieApp.getLikedMoviees(data.id, sessionId))
+            dispatch(ActionsInMovieApp.getRatedMovies(data.id, sessionId))
           })
     )
 }

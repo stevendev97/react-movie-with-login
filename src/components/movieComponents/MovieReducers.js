@@ -6,7 +6,10 @@ const initialState = {
     currentPageNum: 1,
     totalPages: 0,
     likedIds: [],
-    likedMovies: []
+    likedMovies: [],
+    ratedMovies: [],
+    targetratedMovie:{},
+    targetRating:0,
 }
 
 const reducer = (state= initialState, action) => {
@@ -64,6 +67,27 @@ const reducer = (state= initialState, action) => {
             return {
                 ...state,
                 likedMovies: action.payload.likedMovies 
+            }
+        }
+
+        case Actions.SET_RATED_MOVIES: {
+            return {
+                ...state,
+                ratedMovies: action.payload.ratedMovies 
+            }
+        }
+
+        case Actions.SET_TARGET_RATED: {
+            return {
+                ...state,
+                targetratedMovie: action.payload.targetratedMovie 
+            }
+        }
+
+        case Actions.SET_TARGET_RATING: {
+            return {
+                ...state,
+                targetRating: action.payload.targetRating 
             }
         }
 

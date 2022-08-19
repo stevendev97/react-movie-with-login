@@ -19,6 +19,9 @@ export default function Cards(props) {
     const likedIds = useSelector((state) => {
         return state.moviesData.likedIds
     })
+    const ratedMovies = useSelector((state) => {
+      return state.moviesData.ratedMovies
+  })
     const handelLikeClick = (movieId) => {
         if (isLogin){
           if(likedIds.includes(movieId)){
@@ -28,21 +31,35 @@ export default function Cards(props) {
           }
         }
     }
-
+    const handelTitleClick = (cardId) => {
+      dispatch(Actions.getTargetRated(cardId))
+      dispatch(Actions.getTargetRating(ratedMovies, cardId))
+    }
     return (
       <div className="card-container">
         {props.cards.map((card) => {
-          {console.log(card.id)}
           return (
             <div className="card" key={card.id} id={card.id}>
               <img src={`https://image.tmdb.org/t/p/w500${card.poster_path}`} />
-              <Link to={`/incard/${card.id}`}>
-                <h3
-                  className="title"
-                >
-                  {card.original_title}
-                </h3>
-              </Link>
+              { isLogin ? 
+                  <>
+                    <Link to={`/incard/${card.id}`}>
+                      <h3
+                        className="title"
+                        onClick={() => {
+                          handelTitleClick(card.id)
+                        }}
+                      >
+                        {card.original_title}
+                      </h3>
+                    </Link>
+                  </> :  
+                  <h3
+                      className="title"
+                    >
+                      {card.original_title}
+                  </h3>
+              }
               <div className="rate-like-row">
                 <p>{card.vote_average}</p>
                 <i onClick={() => {

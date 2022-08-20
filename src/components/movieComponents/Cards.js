@@ -34,10 +34,6 @@ export default function Cards(props) {
     const handelTitleClick = (cardId) => {
       dispatch(Actions.getTargetRated(cardId))
       dispatch(Actions.getTargetRating(ratedMovies, cardId))
-      // const [theRate, setTheRate] = useState(useSelector((state) => {
-      //   return state.moviesData.targetRating
-      // }))
-      // console.log(theRate, 'inside card call')
     }
     return (
       <div className="card-container">

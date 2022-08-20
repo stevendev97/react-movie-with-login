@@ -69,7 +69,7 @@ const MovieApp = () => {
                             <Route path='/incard/:cardId' element={
                                 <div>
                                     <Header onHomeClick={handelHomeInLogedIn} onLoginClik={handelLoginCliked}/>
-                                    <IndividualCard ratedMovies={ratedMovies} targetRating={targetRating} />
+                                    <IndividualCard ratedMovies={ratedMovies} />
                                 </div>                         
                             }/>
                             <Route path='/liked' element={

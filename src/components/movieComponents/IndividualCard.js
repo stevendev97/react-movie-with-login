@@ -1,16 +1,18 @@
-import React, { useEffect, useState, useMemo } from 'react'
+import React, { useState} from 'react'
 import { useParams } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux';
 import * as Actions from './MovieActions'
 //getTargetRated
-export default function IndividualCard({ratedMovies, targetRating}) {
+export default function IndividualCard({ratedMovies}) {
     const dispatch = useDispatch();
     const params = useParams();
     const [rate, setRate] = useState(1)
     const targetCard = useSelector((state) => {
         return state.moviesData.targetratedMovie
     })
-    const [updatedRating, setUdatedRating] = useState(null)
+    const targetRating = useSelector((state) => {
+        return state.moviesData.targetRating
+    })
     const [companyLogo, setCompanyLogo] = useState(targetCard.production_companies)
     const userId = useSelector((state) => {
         return state.isLogin.userAccountId
@@ -39,7 +41,8 @@ export default function IndividualCard({ratedMovies, targetRating}) {
         fetch(`https://api.themoviedb.org/3/movie/${targetCard.id}/rating?api_key=8758924ab5c823bb55f6379099bdc456&session_id=${sessionId}`, requestOptions)
         dispatch(Actions.getRatedMovies(userId, sessionId))
         dispatch(Actions.getTargetRating(ratedMovies, Number(params.cardId)))
-        setUdatedRating(rate)
+        dispatch(Actions.setTargetedRating(rate))
+  
 
     }
     return (
@@ -66,10 +69,9 @@ export default function IndividualCard({ratedMovies, targetRating}) {
                     <button onClick={() => {
                         handelPostRate()
                     }}>Click to rate the Moive</button>
-                    {(targetRating < 1) ? <p>You have not rated this movie</p> : <p>You gave this movie a {(updatedRating ? updatedRating : targetRating)} out of 10</p>}
+                    {(targetRating < 1) ? <p>You have not rated this movie</p> : <p>You gave this movie a {targetRating} out of 10</p>}
                     <h2>Production Companies</h2>
                     <div className='logos-container'>
-                        {console.log('targetRating',targetRating)}
                     </div>
               </div>
         </div>

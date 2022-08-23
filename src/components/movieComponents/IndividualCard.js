@@ -1,4 +1,4 @@
-import React, { useState} from 'react'
+import React, { useEffect, useState} from 'react'
 import { useParams } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux';
 import * as Actions from './MovieActions'
@@ -10,10 +10,10 @@ export default function IndividualCard({ratedMovies}) {
     const targetCard = useSelector((state) => {
         return state.moviesData.targetratedMovie
     })
+    const [tarCard, setTarCard] = useState({})
     const targetRating = useSelector((state) => {
         return state.moviesData.targetRating
     })
-    const [companyLogo, setCompanyLogo] = useState(targetCard.production_companies)
     const userId = useSelector((state) => {
         return state.isLogin.userAccountId
     })
@@ -23,6 +23,7 @@ export default function IndividualCard({ratedMovies}) {
     const handelRateChange = (e) => {
         setRate(e.target.value)
     }
+
     const handelPostRate = () => {
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
@@ -70,7 +71,11 @@ export default function IndividualCard({ratedMovies}) {
                         handelPostRate()
                     }}>Click to rate the Moive</button>
                     {(targetRating < 1) ? <p>You have not rated this movie</p> : <p>You gave this movie a {targetRating} out of 10</p>}
-                    <h2>Production Companies</h2>
+                    {/* <h2>Production Companies</h2> */}
+                    {/* {targetCard.production_companies.map((logo) => {
+                        return <img src={`https://image.tmdb.org/t/p/w500${logo.logo_path}`} />
+                    })} */}
+                    {/* {console.log('can I map?' ,targetCard.production_companies)} */}
                     <div className='logos-container'>
                     </div>
               </div>

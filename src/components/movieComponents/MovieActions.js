@@ -124,7 +124,6 @@ export const initialLoadCards = (movieType, pageNum) => {
 export const addLikedMovie = (accId, sessionId, movieId) => {
 
     return async (dispatch) => {
-        console.log('is called', accId)
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
     
@@ -188,7 +187,7 @@ export const getTargetRated = (cardId) => {
             await fetch(`https://api.themoviedb.org/3/movie/${cardId}?api_key=8758924ab5c823bb55f6379099bdc456&language=en-US`)
             .then(respon => respon.json())
             .then((result) => {
-                console.log('targeted card',result)
+                console.log('the result',result.production_companies)
                 dispatch(setTargetRated(result))
             })
         }
@@ -201,7 +200,6 @@ export const getTargetRating = (ratedMovies,cardId) => {
                 return movie.id === cardId
             })
             dispatch(setTargetedRating(targted.rating))
-            console.log('success in set target rating' )
         } catch {
             dispatch(setTargetedRating(null))
         }
@@ -213,7 +211,6 @@ export const getTargetRating = (ratedMovies,cardId) => {
 export const deleteLikedMovie = (accId, sessionId, movieId) => {
 
     return async (dispatch) => {
-        console.log('delete liked called')
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
     

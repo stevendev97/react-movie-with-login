@@ -71,10 +71,10 @@ export default function IndividualCard({ratedMovies}) {
                         handelPostRate()
                     }}>Click to rate the Moive</button>
                     {(targetRating < 1) ? <p>You have not rated this movie</p> : <p>You gave this movie a {targetRating} out of 10</p>}
-                    {/* <h2>Production Companies</h2> */}
-                    {/* {targetCard.production_companies.map((logo) => {
-                        return <img src={`https://image.tmdb.org/t/p/w500${logo.logo_path}`} />
-                    })} */}
+                    <h2>Production Companies</h2>
+                    {(targetCard.production_companies && targetCard.production_companies.map((logo) => {
+                        return <img className='comp-logo' src={`https://image.tmdb.org/t/p/w500${logo.logo_path}`} />
+                    }))}
                     {/* {console.log('can I map?' ,targetCard.production_companies)} */}
                     <div className='logos-container'>
                     </div>

@@ -110,5 +110,7 @@
     width: 100%;
   }
   .comp-logo {
+    margin-top: 2rem;
+    padding: 1.4rem;
     width: 200px;
   }
